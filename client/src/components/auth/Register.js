@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AlertContext from "../../context/alert/AlertContext";
 import { useContext } from "react";
+import AuthContext from "../../context/auth/authContext";
+import { useNavigate } from "react-router-dom";
 
-export const Register = () => {
+export const Register = (props) => {
   const alertContext = useContext(AlertContext);
-
+  const authContext = useContext(AuthContext);
   const { setAlert } = alertContext;
+  const navigate = useNavigate();
+
+  const { register, error, clearErrors, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+
+    if (error === "User already exists") {
+      setAlert(error, "danger");
+      clearErrors();
+    }
+    // eslint-disable-next-line
+  }, [error, setAlert, clearErrors]);
 
   const [user, setUser] = useState({
     name: "",
@@ -27,7 +44,11 @@ export const Register = () => {
     } else if (password !== passwordConfirmation) {
       setAlert("Passwords do not match!");
     } else {
-      console.log("register");
+      register({
+        name,
+        email,
+        password,
+      });
     }
   };
 

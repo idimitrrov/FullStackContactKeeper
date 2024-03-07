@@ -40,7 +40,7 @@ export const ContactForm = () => {
     } else {
       updateCurrentContact(contact);
     }
-
+    clearCurrentContact();
     setContact({ name: "", email: "", phone: "", type: "personal" });
   };
 

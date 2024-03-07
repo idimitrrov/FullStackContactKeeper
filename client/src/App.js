@@ -10,6 +10,12 @@ import { Login } from "./components/auth/Login";
 import Alerts from "./components/layout/Alerts";
 import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alert/AlertState";
+import setAuthToken from "./utils/setAuthToken";
+import { PrivateRoute } from "./components/routing/PrivateRoute";
+
+// if (localStorage.token) {
+//   setAuthToken(localStorage.token);
+// }
 
 const App = () => {
   return (
@@ -22,7 +28,15 @@ const App = () => {
               <div className="container">
                 <Alerts />
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  {/* <Route path="/" element={<Home />} /> */}
+                  <Route
+                    path="/"
+                    element={
+                      <PrivateRoute>
+                        <Home />
+                      </PrivateRoute>
+                    }
+                  />
                   <Route path="/about" element={<About />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/login" element={<Login />} />
